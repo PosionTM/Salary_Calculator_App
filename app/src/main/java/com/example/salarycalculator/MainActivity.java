@@ -1,23 +1,36 @@
 package com.example.salarycalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 import java.util.function.DoubleToIntFunction;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button calculate_button;
+    private Switch dark_switch;
     double taxed_salary;
     double entered_salary;
     EditText user_input;
     String conversion_var;
+    String fluff_removed;
+    TextView error_text = findViewById(R.id.error_message);
+
 
 
     @Override
@@ -32,15 +45,46 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 user_input = (EditText)findViewById(R.id.entered_salary);
                 conversion_var = user_input.getText().toString();
-                entered_salary = Double.parseDouble(conversion_var);
+                fluff_removed = conversion_var.replaceAll("[,]", "");
+                entered_salary = Double.parseDouble(fluff_removed);
                 if (entered_salary < 1000) {
                     entered_salary = Convert_hourly_wage(entered_salary);
                 }
                 taxed_salary = Calculate_taxed_salary(entered_salary);
                 Display_salaries(taxed_salary);
+
+                // Puts keyboard away upon clicking Calculate button
+                user_input.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+
+
+
             }
         });
 
+        dark_switch = (Switch) findViewById(R.id.dark_switch);
+        ConstraintLayout main_view = findViewById(R.id.parent_layout);
+
+        dark_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+
+                    main_view.setBackgroundColor(Color.rgb(20, 20, 20));
+
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+
+
+                } else {
+                    // The toggle is disabled
+                    ((TextView)findViewById(R.id.Monthly_value)).setText("0101010");
+                    main_view.setBackgroundColor(Color.rgb(240, 239, 232));
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
 
         }
 
@@ -207,5 +251,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.Monthly_value)).setText(monthly_display_value);
 
     }
+
 
 }
