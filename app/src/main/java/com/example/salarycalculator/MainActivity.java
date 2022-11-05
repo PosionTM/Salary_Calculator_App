@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.res.Resources;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,13 +12,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+
 import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
-import java.util.function.DoubleToIntFunction;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     EditText user_input;
     String conversion_var;
     String fluff_removed;
-    TextView error_text = findViewById(R.id.error_message);
+    // for future implementation of a try catch
+//    TextView error_text = findViewById(R.id.error_message);
 
 
 
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     // The toggle is disabled
-                    ((TextView)findViewById(R.id.Monthly_value)).setText("0101010");
                     main_view.setBackgroundColor(Color.rgb(240, 239, 232));
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
