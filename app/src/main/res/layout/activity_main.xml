@@ -79,6 +79,7 @@
         android:fontFamily="@font/lato"
         android:text="Salary: "
         android:textSize="24sp"
+        android:textColor="@color/text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
