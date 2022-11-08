@@ -93,11 +93,11 @@
         android:ems="10"
         android:fontFamily="@font/lato"
         android:gravity="bottom"
+        android:hint="Enter annual/hourly"
         android:includeFontPadding="true"
         android:inputType="numberDecimal"
         android:paddingBottom="8dp"
         android:textSize="20sp"
-        android:hint="Enter annual/hourly"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -182,11 +182,26 @@
         android:layout_marginEnd="185dp"
         android:fontFamily="@font/lato"
         android:text="Error, please try again"
-        android:textSize="20sp"
         android:textAlignment="center"
+        android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/breakdown_button"
+        android:layout_width="130dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/lato"
+        android:text="Breakdown"
+        android:textColor="@color/calm_white"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
