@@ -97,6 +97,7 @@
         android:inputType="numberDecimal"
         android:paddingBottom="8dp"
         android:textSize="20sp"
+        android:hint="Enter annual/hourly"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -176,12 +177,15 @@
         android:id="@+id/error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="301dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="296dp"
+        android:layout_marginEnd="185dp"
         android:fontFamily="@font/lato"
-        android:text="error"
+        android:text="Error, please try again"
         android:textSize="20sp"
+        android:textAlignment="center"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

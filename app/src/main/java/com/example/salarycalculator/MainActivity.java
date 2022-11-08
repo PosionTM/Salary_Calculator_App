@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.salarycalculator.R;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -33,15 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences = null;
 
-    // for future implementation of a try catch
-//    TextView error_text = findViewById(R.id.error_message);
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.example.salarycalculator.R.layout.activity_main);
 
 
         // Allows "Calculate" button to run calculations
@@ -49,18 +46,29 @@ public class MainActivity extends AppCompatActivity {
         calculate_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user_input = (EditText)findViewById(R.id.entered_salary);
-                conversion_var = user_input.getText().toString();
-                fluff_removed = conversion_var.replaceAll("[,]", "");
-                entered_salary = Double.parseDouble(fluff_removed);
-                if (entered_salary < 1000) {
-                    entered_salary = Convert_hourly_wage(entered_salary);
-                }
-                taxed_salary = Calculate_taxed_salary(entered_salary);
-                Display_salaries(taxed_salary);
 
-                // Puts keyboard away upon clicking Calculate button
-                user_input.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                try {
+                    user_input = (EditText)findViewById(R.id.entered_salary);
+                    conversion_var = user_input.getText().toString();
+                    fluff_removed = conversion_var.replaceAll("[,]", "");
+                    entered_salary = Double.parseDouble(fluff_removed);
+                    if (entered_salary < 1000) {
+                        entered_salary = Convert_hourly_wage(entered_salary);
+                    }
+                    taxed_salary = Calculate_taxed_salary(entered_salary);
+                    Display_salaries(taxed_salary);
+
+                    // Puts keyboard away upon clicking Calculate button
+                    user_input.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+                    ((TextView)findViewById(R.id.error_message)).setVisibility(View.INVISIBLE);
+
+                } catch (Exception e) {
+                    System.out.println("Error running calculations with inputted values");
+                    ((TextView)findViewById(R.id.error_message)).setVisibility(View.VISIBLE);
+
+                }
+
 
 
 
