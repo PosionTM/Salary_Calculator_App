@@ -12,5 +12,6 @@
     <color name="friendly_green">#64AB52</color>
     <color name="dark_green">#447538</color>
     <color name="text_color">#000000</color>
-
+    <color name="Background_color">#F0EFE8</color>
+    <color name="light_black">#141414</color>
 </resources>

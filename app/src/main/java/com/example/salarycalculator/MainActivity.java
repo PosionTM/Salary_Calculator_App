@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Allows "Calculate" button to run calculations
         calculate_button = (Button) findViewById(R.id.Calculate_button);
         calculate_button.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         dark_switch = findViewById(R.id.dark_switch);
         ConstraintLayout main_view = findViewById(R.id.parent_layout);
 
@@ -79,7 +78,13 @@ public class MainActivity extends AppCompatActivity {
             dark_switch.setChecked(true);
             main_view.setBackgroundColor(Color.rgb(20, 20, 20));
 
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            dark_switch.setChecked(false);
+            main_view.setBackgroundColor(Color.rgb(240, 239, 232));
         }
+
+
 
         dark_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
 
         }

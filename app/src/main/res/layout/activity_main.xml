@@ -5,7 +5,8 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/calm_white"
+    android:background="@color/Background_color"
+    android:forceDarkAllowed="false"
     tools:context=".MainActivity">
 
     <TextView
@@ -77,9 +78,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="60dp"
         android:fontFamily="@font/lato"
-        android:text="Salary: "
+        android:text="@string/Salary_text"
         android:textSize="24sp"
-        android:textColor="@color/text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

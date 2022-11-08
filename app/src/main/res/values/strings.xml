@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Salary Calculator</string>
+    <string name="Salary_text">Salary: </string>
 </resources>
