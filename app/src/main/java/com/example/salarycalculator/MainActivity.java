@@ -2,9 +2,11 @@ package com.example.salarycalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -21,13 +23,16 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button calculate_button;
-    private Switch dark_switch;
+    Button calculate_button;
+    SwitchCompat dark_switch;
     double taxed_salary;
     double entered_salary;
     EditText user_input;
     String conversion_var;
     String fluff_removed;
+
+    SharedPreferences sharedPreferences = null;
+
     // for future implementation of a try catch
 //    TextView error_text = findViewById(R.id.error_message);
 
@@ -62,28 +67,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        dark_switch = (Switch) findViewById(R.id.dark_switch);
+
+
+        dark_switch = findViewById(R.id.dark_switch);
         ConstraintLayout main_view = findViewById(R.id.parent_layout);
+
+        sharedPreferences = getSharedPreferences("night", 0);
+        Boolean booleanValue = sharedPreferences.getBoolean("night_mode", true);
+        if (booleanValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            dark_switch.setChecked(true);
+            main_view.setBackgroundColor(Color.rgb(20, 20, 20));
+
+        }
 
         dark_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
-
-                    main_view.setBackgroundColor(Color.rgb(20, 20, 20));
-
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-
-
+                    dark_switch.setChecked(true);
+                    main_view.setBackgroundColor(Color.rgb(20, 20, 20));
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode", true);
+                    editor.commit();
                 } else {
-                    // The toggle is disabled
-                    main_view.setBackgroundColor(Color.rgb(240, 239, 232));
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    dark_switch.setChecked(false);
+                    main_view.setBackgroundColor(Color.rgb(240, 239, 232));
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode", false);
+                    editor.commit();
                 }
             }
         });
+
 
         }
 
