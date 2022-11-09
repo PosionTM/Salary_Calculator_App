@@ -16,7 +16,7 @@
         android:layout_marginStart="214dp"
         android:layout_marginBottom="224dp"
         android:fontFamily="@font/lato"
-        android:text="0"
+        android:text="@string/Zero_out"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,7 +28,7 @@
         android:layout_marginStart="214dp"
         android:layout_marginBottom="280dp"
         android:fontFamily="@font/lato"
-        android:text="0"
+        android:text="@string/Zero_out"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -40,7 +40,7 @@
         android:layout_marginStart="214dp"
         android:layout_marginBottom="168dp"
         android:fontFamily="@font/lato"
-        android:text="0"
+        android:text="@string/Zero_out"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -52,7 +52,7 @@
         android:layout_marginStart="214dp"
         android:layout_marginBottom="334dp"
         android:fontFamily="@font/lato"
-        android:text="0"
+        android:text="@string/Zero_out"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -65,7 +65,7 @@
         android:layout_marginTop="184dp"
         android:layout_marginEnd="134dp"
         android:fontFamily="@font/lato"
-        android:text="Calculate"
+        android:text="@string/Calculate_button_text"
         android:textColor="@color/calm_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,13 +93,14 @@
         android:ems="10"
         android:fontFamily="@font/lato"
         android:gravity="bottom"
-        android:hint="Enter annual/hourly"
+        android:hint="@string/User_salary_hint_text"
         android:includeFontPadding="true"
         android:inputType="numberDecimal"
         android:paddingBottom="8dp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill" />
 
     <TextView
         android:id="@+id/Annual_text"
@@ -108,7 +109,7 @@
         android:layout_marginStart="54dp"
         android:layout_marginBottom="334dp"
         android:fontFamily="@font/lato"
-        android:text="Annual Salary:"
+        android:text="@string/Annual_salary"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -120,7 +121,7 @@
         android:layout_marginStart="64dp"
         android:layout_marginBottom="280dp"
         android:fontFamily="@font/lato"
-        android:text="Hourly Wage:"
+        android:text="@string/Hourly_text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -132,7 +133,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginBottom="168dp"
         android:fontFamily="@font/lato"
-        android:text="Monthly Income:"
+        android:text="@string/Monthly_text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -144,7 +145,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="224dp"
         android:fontFamily="@font/lato"
-        android:text="Biweekly Income:"
+        android:text="@string/Biweekly_text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -155,23 +156,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:fontFamily="@font/lato"
-        android:text="Dark"
+        android:text="@string/Dark_switch_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/math_button"
-        android:layout_width="69dp"
-        android:layout_height="51dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#64AB52"
-        android:fontFamily="@font/lato"
-        android:text="Math"
-        android:textSize="10sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/error_message"
@@ -181,7 +169,7 @@
         android:layout_marginTop="296dp"
         android:layout_marginEnd="185dp"
         android:fontFamily="@font/lato"
-        android:text="Error, please try again"
+        android:text="@string/Error_text"
         android:textAlignment="center"
         android:textSize="20sp"
         android:visibility="invisible"
@@ -196,7 +184,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/lato"
-        android:text="Breakdown"
+        android:text="@string/Breakdown_button_text"
         android:textColor="@color/calm_white"
         android:textSize="12sp"
         android:visibility="invisible"

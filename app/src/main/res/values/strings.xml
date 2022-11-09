@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Salary Calculator</string>
     <string name="Salary_text">Salary: </string>
+    <string name="User_salary_hint_text">Enter annual/hourly</string>
+    <string name="Annual_salary">Annual Salary: </string>
+    <string name="Hourly_text">Hourly Wage: </string>
+    <string name="Biweekly_text">Biweekly Income: </string>
+    <string name="Monthly_text">Monthly Income: </string>
+    <string name="Zero_out">0</string>
+    <string name="Error_text">Error, please try again</string>
+    <string name="Calculate_button_text">CALCULATE</string>
+    <string name="Dark_switch_text">Dark</string>
+    <string name="Breakdown_button_text">BREAKDOWN</string>
 </resources>

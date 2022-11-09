@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.salarycalculator.R;
-
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -42,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Allows "Calculate" button to run calculations
-        calculate_button = (Button) findViewById(R.id.Calculate_button);
+        calculate_button = findViewById(R.id.Calculate_button);
         calculate_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 try {
-                    user_input = (EditText)findViewById(R.id.entered_salary);
+                    user_input = findViewById(R.id.entered_salary);
                     conversion_var = user_input.getText().toString();
                     fluff_removed = conversion_var.replaceAll("[,]", "");
                     entered_salary = Double.parseDouble(fluff_removed);
@@ -61,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                     // Puts keyboard away upon clicking Calculate button
                     user_input.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
-                    ((TextView)findViewById(R.id.error_message)).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.error_message).setVisibility(View.INVISIBLE);
 
                 } catch (Exception e) {
                     System.out.println("Error running calculations with inputted values");
-                    ((TextView)findViewById(R.id.error_message)).setVisibility(View.VISIBLE);
+                    findViewById(R.id.error_message).setVisibility(View.VISIBLE);
 
                 }
 
@@ -76,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        // Saves night present if app is closed with dark mode on
         dark_switch = findViewById(R.id.dark_switch);
         ConstraintLayout main_view = findViewById(R.id.parent_layout);
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
+        // Night mode switch
         dark_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -121,21 +121,18 @@ public class MainActivity extends AppCompatActivity {
 
     // Converts hourly wage to annual salary
     public static double Convert_hourly_wage(double wage) {
-        double salary = wage * 2080;
-        return salary;
+        return wage * 2080;
     }
 
     // Calculates GA State tax
     // GA_Tax is the 5.75% flat tax over 7k
     public static double GA_State_Tax(double taxable_salary)  {
-        double GA_Tax = (taxable_salary - 7000) * 0.0575 + 230;
-        return  GA_Tax;
+        return  (taxable_salary - 7000) * 0.0575 + 230;
     }
 
 
     // Calculates taxes from inputted salary
     public static double Calculate_taxed_salary(double gross_salary) {
-
 
         // if user inputted number less than 1, returns 0 as calculations
         if (gross_salary <= 0) {
@@ -146,10 +143,6 @@ public class MainActivity extends AppCompatActivity {
         if (gross_salary > 0 && gross_salary < 999) {
             gross_salary *= 2080;
         }
-
-        double taxable_salary;
-
-
 
         // SSM is social security and medicare flat rate of 7.65%
         double SSM_Tax = gross_salary * 0.0765;
@@ -166,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         // Standard deduction is 12550 added in the final salary value
         double Standard_Deduction = 12550;
 
+        double taxable_salary;
         double tax_bracket_salary;
         double final_salary = 0;
         double GA_Tax;
@@ -174,33 +168,33 @@ public class MainActivity extends AppCompatActivity {
         // standard deduction from gross salary is taxable salary
         taxable_salary = gross_salary - Standard_Deduction;
 
-        // This var is used in most of the conditionals below to
+        // Georgia state tax calculation
         GA_Tax = GA_State_Tax(gross_salary);
 
 
         // Conditionals for each tax bracket
         /*
         Math:
-            1. Calculates federal tax based on tax bracket system from 2021
-            2. Social Security and Medicare have a flat rate of 7.65%
-            3. Uses Georgia State tax which is 5.75% for anyone making 7k+
-            4. Atlanta does NOT have a local income tax and thus doesn't change anything
+            1. Calculates federal tax based on tax bracket system from 2021.
+            2. Social Security and Medicare have a flat rate of 7.65% for things below 200k.
+            3. Uses Georgia State tax which is 5.75% for anyone making above 7k+.
+            4. Atlanta does NOT have any additional income tax and thus doesn't change anything.
             5. Assumes you work 40 hours per week and work 52 weeks per year,
                totaling 2080 hours per year.
-            6. Uses the standard deduction of $12,550.
-            7. Tax brackets are based on single filing, NOT married.
-            8. Social Security only applies up to 142.8k
+            6. Uses the standard deduction of $12,550. (Alternative is itemized deductions).
+            7. Tax brackets are based on single filing, NOT married. (For now)
+            8. Social Security only applies up to 142.8k.
             9. The GA tax rate needlessly convoluted and minor, as it has
             numerous tax brackets for anything below 7k so we will
                add a 3.5% GA flat rate to any salaries below 10k
             10. During tax bracket calculations, the previous tax brackets maximum taxable value
             is subtracted and the remainder is taxed as the current tax bracket rate. Then, it
             is added back during the final salary calculation. This ensures you don't get
-            the entire salary taxed at a flat rate.
+            the entire salary taxed at a flat rate for being in a higher bracket.
          */
 
         // Note: Taxable salary is only negative when salary is lower than standard deduct
-        if (taxable_salary < 0) {
+        if (taxable_salary <= 0) {
             final_salary = gross_salary * 0.965 - SSM_Tax;
             return final_salary;
         }
@@ -274,8 +268,7 @@ public class MainActivity extends AppCompatActivity {
         String biweekly_display_value = Format_num.format(biweekly_income);
         String hourly_display_value = Format_wage.format(hourly_income);
 
-        // TESTING ANNUAL VALUE
-//        ((TextView)findViewById(R.id.Annual_value)).setText(Double.toString(taxed_salary));
+
         ((TextView)findViewById(R.id.Annual_value)).setText(Annual_display_value);
         ((TextView)findViewById(R.id.Hourly_value)).setText(hourly_display_value);
         ((TextView)findViewById(R.id.Biweekly_value)).setText(biweekly_display_value);
