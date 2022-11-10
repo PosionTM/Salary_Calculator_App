@@ -1,10 +1,12 @@
 package com.example.salarycalculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,15 +23,16 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static double taxed_salary;
+    public static double entered_salary;
     Button calculate_button;
+    Button Breakdown_button;
     SwitchCompat dark_switch;
-    double taxed_salary;
-    double entered_salary;
     EditText user_input;
     String conversion_var;
     String fluff_removed;
-
     SharedPreferences sharedPreferences = null;
+    int counter;
 
 
 
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.salarycalculator.R.layout.activity_main);
+
 
 
         // Allows "Calculate" button to run calculations
@@ -74,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Opens Breakdown Activity
+        Breakdown_button = findViewById(R.id.Breakdown_button);
+        Breakdown_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBreakdownAcivity();
+            }
+        });
+
+
+
+
+
 
         // Saves night present if app is closed with dark mode on
         dark_switch = findViewById(R.id.dark_switch);
@@ -93,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+
         // Night mode switch
         dark_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -103,14 +122,14 @@ public class MainActivity extends AppCompatActivity {
                     main_view.setBackgroundColor(Color.rgb(20, 20, 20));
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode", true);
-                    editor.commit();
+                    editor.apply();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     dark_switch.setChecked(false);
                     main_view.setBackgroundColor(Color.rgb(240, 239, 232));
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode", false);
-                    editor.commit();
+                    editor.apply();
                 }
             }
         });
@@ -126,8 +145,28 @@ public class MainActivity extends AppCompatActivity {
 
     // Calculates GA State tax
     // GA_Tax is the 5.75% flat tax over 7k
-    public static double GA_State_Tax(double taxable_salary)  {
-        return  (taxable_salary - 7000) * 0.0575 + 230;
+    public static double GA_State_Tax(double gross_salary)  {
+        return  (gross_salary - 7000) * 0.0575 + 230;
+    }
+
+
+    // Calculates Medicare and Social Security taxes
+    public static double Caclulate_FICA_Tax(double gross_salary) {
+        double taxes;
+
+        // SSM is social security and medicare flat rate of 7.65%
+        if (gross_salary < 142800) {
+            taxes = (gross_salary * 0.0765) + (gross_salary * 0.0145);
+        }
+        // Social Security can only tax up to 142.8k, thus maximum is 8853.60
+        else if (gross_salary > 142800 && gross_salary < 200000){
+            taxes = 8853.60 + (gross_salary * 0.0145);
+        }
+        // Medicare tax increases to 2.35% after 200k, max tax at 1.45% is 2900
+        else {
+            taxes = 8853.60 + 2900 + ((gross_salary - 200000) * 0.0235);
+        }
+        return taxes;
     }
 
 
@@ -144,17 +183,7 @@ public class MainActivity extends AppCompatActivity {
             gross_salary *= 2080;
         }
 
-        // SSM is social security and medicare flat rate of 7.65%
-        double SSM_Tax = gross_salary * 0.0765;
-
-        // Medicare only for above 142.8k
-        double Medicare_Tax = gross_salary * 0.0145;
-
-        // Medicare tax increases to 2.35% after 200k
-        double Medicare_Tax_200k = gross_salary * 0.0235;
-
-        // Social Security can only tax up to 142.8k
-        double Max_SocialSecurity_Tax = 8853.60;
+        double FICA_Taxes = Caclulate_FICA_Tax(gross_salary);
 
         // Standard deduction is 12550 added in the final salary value
         double Standard_Deduction = 12550;
@@ -195,59 +224,45 @@ public class MainActivity extends AppCompatActivity {
 
         // Note: Taxable salary is only negative when salary is lower than standard deduct
         if (taxable_salary <= 0) {
-            final_salary = gross_salary * 0.965 - SSM_Tax;
-            return final_salary;
+            final_salary = gross_salary * 0.965 - FICA_Taxes;
         }
         // 1st tax bracket, Federal tax of 10% + add a flat 3.5% for GA tax = 0.865
         else if (taxable_salary > 0 && taxable_salary <= 9950) {
-            final_salary = taxable_salary * 0.865 - SSM_Tax + Standard_Deduction;
-            return final_salary;
+            final_salary = taxable_salary * 0.865 - FICA_Taxes + Standard_Deduction;
         }
         // 2nd tax bracket
         else if (taxable_salary > 9950 && taxable_salary <= 40525) {
             tax_bracket_salary = ((taxable_salary - 9950) * 0.88);
-            final_salary = tax_bracket_salary + 8955 - SSM_Tax - GA_Tax + Standard_Deduction;
-            return final_salary;
+            final_salary = tax_bracket_salary + 8955 - FICA_Taxes - GA_Tax + Standard_Deduction;
         }
         // 3rd tax bracket
         else if (taxable_salary > 40525 && taxable_salary <= 86375) {
             tax_bracket_salary = ((taxable_salary - 40525) * 0.78);
-            final_salary = tax_bracket_salary + 35860 - SSM_Tax - GA_Tax + Standard_Deduction;
-            return final_salary;
+            final_salary = tax_bracket_salary + 35860 - FICA_Taxes - GA_Tax + Standard_Deduction;
         }
-        // 4th tax bracket, nested if statement because of max social security tax at 142.8k
+        // 4th tax bracket
         else if (taxable_salary > 86375 && taxable_salary <= 164925) {
             tax_bracket_salary = ((taxable_salary - 86375) * 0.76);
-            if (taxable_salary <= 142800) {
-                final_salary = tax_bracket_salary + 71833 - SSM_Tax - GA_Tax + Standard_Deduction;
-                return final_salary;
-            } else {
-                final_salary = (tax_bracket_salary + 71833 - Medicare_Tax - Max_SocialSecurity_Tax
-                        - GA_Tax + Standard_Deduction);
-                return final_salary;
-            }
+            final_salary = (tax_bracket_salary + 71833 - FICA_Taxes - GA_Tax + Standard_Deduction);
+
         }
         // 5th tax bracket
         else if (taxable_salary > 164925 && taxable_salary <= 209425) {
             tax_bracket_salary = ((taxable_salary - 164925) * 0.68);
-            final_salary = (tax_bracket_salary + 131530 - Medicare_Tax - Max_SocialSecurity_Tax
+            final_salary = (tax_bracket_salary + 131530 - FICA_Taxes
                     - GA_Tax + Standard_Deduction);
-            return final_salary;
         }
         // 6th tax bracket
         else if (taxable_salary > 209425 && taxable_salary <= 523600) {
             tax_bracket_salary = ((taxable_salary - 209425) * 0.65);
-            final_salary = (tax_bracket_salary + 161789 - Medicare_Tax_200k -
-                    Max_SocialSecurity_Tax - GA_Tax + Standard_Deduction);
-            return final_salary;
+            final_salary = (tax_bracket_salary + 161789 - FICA_Taxes - GA_Tax + Standard_Deduction);
         }
         // 7th & final tax bracket
         else if (taxable_salary > 523600) {
             tax_bracket_salary = ((taxable_salary - 523600) * 0.63);
-            final_salary = (tax_bracket_salary + 366002 - Medicare_Tax_200k -
-                    Max_SocialSecurity_Tax - GA_Tax + Standard_Deduction);
-            return final_salary;
+            final_salary = (tax_bracket_salary + 366002 - FICA_Taxes - GA_Tax + Standard_Deduction);
         }
+
         return final_salary;
 
 
@@ -276,5 +291,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void openBreakdownAcivity() {
+        Intent intent = new Intent(this, BreakdownActivity.class);
+        startActivity(intent);
+    }
+
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        System.out.println("Processing: Saving instance");
+        outState.putInt("Counter", counter);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // This allows the app to restart itself upon multiple failed restores
+        counter = savedInstanceState.getInt("Counter");
+        counter++;
+        if (counter >= 3) {
+            Intent i = getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
+        System.out.println("Processing: Restore instance, Counter: " + counter);
+
+    }
+
+
+
+    // Allows values to persist after opening breakdown activity
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("Processing: OnResume");
+        taxed_salary = Calculate_taxed_salary(entered_salary);
+        Display_salaries(taxed_salary);
+    }
 
 }
