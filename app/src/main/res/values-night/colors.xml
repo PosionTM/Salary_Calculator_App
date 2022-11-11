@@ -14,4 +14,6 @@
     <color name="text_color">#FFFFFFFF</color>
     <color name="Background_color">#141414</color>
     <color name="light_black">#141414</color>
+    <color name="bd_tax_text">#DF8080</color>
+    <color name="bd_income_text">#7ED069</color>
 </resources>

@@ -11,4 +11,18 @@
     <string name="Calculate_button_text">CALCULATE</string>
     <string name="Dark_switch_text">Dark</string>
     <string name="Breakdown_button_text">BREAKDOWN</string>
+    <string name="BD_Taxes_title_text">Taxes</string>
+    <string name="BD_Federal_text">Federal Tax:</string>
+    <string name="BD_FICA_text">FICA:</string>
+    <string name="BD_State_text">State Tax:</string>
+    <string name="BD_Total_text">Total Taxes:</string>
+    <string name="BD_Take_home_text">Take Home Pay</string>
+    <string name="BD_Taxed_annually_text">Taxed Annually:</string>
+    <string name="BD_Monthly_text">Monthly:</string>
+    <string name="BD_Biweekly_text">Biweekly:</string>
+    <string name="BD_Weekly_text">Weekly:</string>
+    <string name="BD_Hourly_text">Hourly:</string>
+    <string name="BD_Back_Description">Back Button</string>
+
+
 </resources>
