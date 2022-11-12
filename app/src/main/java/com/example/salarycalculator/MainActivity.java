@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -78,7 +80,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Opens Breakdown Activity
+        // Allows keyboard to be hidden upon clicking the outside of input field
+        user_input = findViewById(R.id.entered_salary);
+        user_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        // Opens Breakdown Activity upon clicking breakdown button
         Breakdown_button = findViewById(R.id.Breakdown_button);
         Breakdown_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Night mode switch
+        // Night mode switch functionality
         dark_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -291,26 +304,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Opens breakdown screen when called (upon breakdown button click)
     public void openBreakdownAcivity() {
         Intent intent = new Intent(this, BreakdownActivity.class);
         startActivity(intent);
     }
 
 
-
+    // Counts each time this instance is called
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         System.out.println("Processing: Saving instance");
         outState.putInt("Counter", counter);
-
     }
 
+
+    // If this instance is called too many times, it restarts app
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
-        // This allows the app to restart itself upon multiple failed restores
         counter = savedInstanceState.getInt("Counter");
         counter++;
         if (counter >= 3) {
@@ -324,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     // Allows values to persist after opening breakdown activity
     @Override
     protected void onResume() {
@@ -332,6 +344,13 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Processing: OnResume");
         taxed_salary = Calculate_taxed_salary(entered_salary);
         Display_salaries(taxed_salary);
+    }
+
+
+    // Hides keyboard
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }
