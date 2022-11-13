@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
-
+// Created by Tommy M, 2022
 public class MainActivity extends AppCompatActivity {
 
     public static double taxed_salary;
