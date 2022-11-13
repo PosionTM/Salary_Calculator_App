@@ -1,7 +1,7 @@
-package com.example.salarycalculator;
+package com.PosionTM.salarycalculator;
 
-import static com.example.salarycalculator.MainActivity.Caclulate_FICA_Tax;
-import static com.example.salarycalculator.MainActivity.GA_State_Tax;
+import static com.PosionTM.salarycalculator.MainActivity.Caclulate_FICA_Tax;
+import static com.PosionTM.salarycalculator.MainActivity.GA_State_Tax;
 
 import androidx.appcompat.app.AppCompatActivity;
 

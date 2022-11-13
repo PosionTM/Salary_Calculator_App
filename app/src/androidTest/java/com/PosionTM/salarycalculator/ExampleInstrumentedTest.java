@@ -1,4 +1,4 @@
-package com.example.salarycalculator;
+package com.PosionTM.salarycalculator;
 
 import android.content.Context;
 

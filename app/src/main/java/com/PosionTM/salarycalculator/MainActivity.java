@@ -1,4 +1,4 @@
-package com.example.salarycalculator;
+package com.PosionTM.salarycalculator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.salarycalculator.R.layout.activity_main);
+        setContentView(com.PosionTM.salarycalculator.R.layout.activity_main);
 
 
 
